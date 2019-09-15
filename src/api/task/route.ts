@@ -13,5 +13,8 @@ export class Routes {
 
         app.route('/task/:taskId')
             .get(this.task.readTask);
+
+        app.route('/task/update/:taskId')
+            .put(this.task.updateTask);
     }
 }

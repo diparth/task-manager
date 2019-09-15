@@ -19,7 +19,6 @@ export class TaskController {
 
     public createTask(req: Request, res: Response): void {
         let task = new Task(req.body);
-        console.log(task);
         task.save((err, task) => {
             if (err) {
                 res.send(err);
@@ -31,13 +30,23 @@ export class TaskController {
     }
 
     public readTask(req: Request, res: Response): void {
-        console.log(req.params.taskId);
         Task.findById(req.params.taskId, (err, task) => {
             if (err) {
                 res.send(err);
             }
 
             console.log(`ID ${req.params.taskId} -> task: ${task}`);
+            res.json(task);
+        });
+    }
+
+    public updateTask(req: Request, res: Response): void {
+        Task.findOneAndUpdate({ _id: req.params.taskId }, req.body, { new: true }, (err, task) => {
+            if (err) {
+                res.send(err);
+            }
+
+            console.log(`Task updated with id: ${req.params.taskId}`, task);
             res.json(task);
         });
     }
